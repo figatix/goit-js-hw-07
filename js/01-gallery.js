@@ -2,9 +2,15 @@ import { galleryItems } from './gallery-items.js';
 // Change code below this line
 
 
+/*
+? Створення і рендер розмітки на підставі масиву даних galleryItems і наданого шаблону елемента галереї.
+? Реалізація делегування на div.gallery і отримання url великого зображення.
+? Підключення скрипту і стилів бібліотеки модального вікна basicLightbox. Використовуй CDN сервіс jsdelivr і додай у проект посилання на мініфіковані (.min) файли бібліотеки.
+? Відкриття модального вікна по кліку на елементі галереї. Для цього ознайомся з документацією і прикладами.
+? Заміна значення атрибута src елемента <img> в модальному вікні перед відкриттям. Використовуй готову розмітку модального вікна із зображенням з прикладів бібліотеки basicLightbox.
 
+*/
 
-// ? Створення і рендер розмітки на підставі масиву даних galleryItems і наданого шаблону елемента галереї.
 
 const imagesMarkup = galleryItems.map(({ preview, original, description }) => {
   return `<div class="gallery__item">
@@ -48,45 +54,26 @@ function onGalleryClick(e) {
   const currentImgOriginalAlt = e.target.alt;
 
   const instance = basicLightbox.create(`
-  <img width="1400" height="900" src="${currentImgOriginalSrc}">
-  `).show(() => {
-    console.log('lightbox now visible')
+  <img width="1400" height="900" src="${currentImgOriginalSrc}" alt="${currentImgOriginalAlt}">
+  `)
+
+  instance.show(() => {
     window.addEventListener('keydown', keyEscape)
   })
-
-  console.log("instance", instance);
-
-
-  // basicLightbox.close(() => console.log('lightbox not visible anymore'))
 
   function keyEscape(evt) {
     if (evt.code === "Escape") {
       console.log('ESCAPE!!!');
-      window.removeEventListener('keydown', keyEscape)
-      return;
+      instance.close(() => {
+        window.removeEventListener('keydown', keyEscape)
+      })
+      return
     }
     console.log("NOT ESCAPE!!");
   }
-
-  
-  
 
 }
 
 galleryEl.addEventListener('click', onGalleryClick)
 
 
-
-
-
-
-
-
-/*
-? Створення і рендер розмітки на підставі масиву даних galleryItems і наданого шаблону елемента галереї.
-? Реалізація делегування на div.gallery і отримання url великого зображення.
-? Підключення скрипту і стилів бібліотеки модального вікна basicLightbox. Використовуй CDN сервіс jsdelivr і додай у проект посилання на мініфіковані (.min) файли бібліотеки.
-? Відкриття модального вікна по кліку на елементі галереї. Для цього ознайомся з документацією і прикладами.
-? Заміна значення атрибута src елемента <img> в модальному вікні перед відкриттям. Використовуй готову розмітку модального вікна із зображенням з прикладів бібліотеки basicLightbox.
-
-*/
