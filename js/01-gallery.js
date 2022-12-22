@@ -3,7 +3,6 @@ import { galleryItems } from './gallery-items.js';
 
 
 
-console.log(galleryItems);
 
 // ? Створення і рендер розмітки на підставі масиву даних galleryItems і наданого шаблону елемента галереї.
 
@@ -20,26 +19,22 @@ const imagesMarkup = galleryItems.map(({ preview, original, description }) => {
   </div>`
 })
 
-console.log(imagesMarkup);
 const imagesMarkupString = imagesMarkup.join('')
 
 const galleryEl = document.querySelector('.gallery')
 
 galleryEl.insertAdjacentHTML('beforeend', imagesMarkupString)
 
-// const galleryItemEl = document.querySelector('.gallery__Item')
-// const galleryLinksEl = document.querySelectorAll('.gallery__link')
-// const galleryImageEl = document.querySelector('.gallery__image')
-const bodyEl = document.querySelector('body');
-const headEl = document.querySelector('head')
+// const bodyEl = document.querySelector('body');
+// const headEl = document.querySelector('head')
 
 // Підключаю ЛайтБокс
-const connectScriptLightBox = '<script src="https://cdn.jsdelivr.net/npm/basiclightbox@5.0.4/dist/basicLightbox.min.js"></script>';
-const connectStyleLightBox = `<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/basiclightbox@5.0.4/dist/basicLightbox.min.css">`;
+// const connectScriptLightBox = '<script src="https://cdn.jsdelivr.net/npm/basiclightbox@5.0.4/dist/basicLightbox.min.js"></script>';
+// const connectStyleLightBox = `<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/basiclightbox@5.0.4/dist/basicLightbox.min.css">`;
 
 
-bodyEl.insertAdjacentHTML('beforeend', connectScriptLightBox)
-headEl.insertAdjacentHTML('beforeend', connectStyleLightBox)
+// bodyEl.insertAdjacentHTML('beforeend', connectScriptLightBox)
+// headEl.insertAdjacentHTML('beforeend', connectStyleLightBox)
 // 
 
 
@@ -51,19 +46,35 @@ function onGalleryClick(e) {
 
   const currentImgOriginalSrc = e.target.dataset.source;
   const currentImgOriginalAlt = e.target.alt;
-  console.log(currentImgOriginalSrc);
-  console.log(currentImgOriginalAlt);
 
-  basicLightbox.create(`
+  const instance = basicLightbox.create(`
   <img width="1400" height="900" src="${currentImgOriginalSrc}">
-  `).show()
+  `).show(() => {
+    console.log('lightbox now visible')
+    window.addEventListener('keydown', keyEscape)
+  })
+
+  console.log("instance", instance);
 
 
+  // basicLightbox.close(() => console.log('lightbox not visible anymore'))
+
+  function keyEscape(evt) {
+    if (evt.code === "Escape") {
+      console.log('ESCAPE!!!');
+      window.removeEventListener('keydown', keyEscape)
+      return;
+    }
+    console.log("NOT ESCAPE!!");
+  }
+
+  
   
 
 }
 
 galleryEl.addEventListener('click', onGalleryClick)
+
 
 
 
