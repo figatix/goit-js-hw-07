@@ -1,17 +1,6 @@
 import { galleryItems } from './gallery-items.js';
 // Change code below this line
 
-
-/*
-? Створення і рендер розмітки на підставі масиву даних galleryItems і наданого шаблону елемента галереї.
-? Реалізація делегування на div.gallery і отримання url великого зображення.
-? Підключення скрипту і стилів бібліотеки модального вікна basicLightbox. Використовуй CDN сервіс jsdelivr і додай у проект посилання на мініфіковані (.min) файли бібліотеки.
-? Відкриття модального вікна по кліку на елементі галереї. Для цього ознайомся з документацією і прикладами.
-? Заміна значення атрибута src елемента <img> в модальному вікні перед відкриттям. Використовуй готову розмітку модального вікна із зображенням з прикладів бібліотеки basicLightbox.
-
-*/
-
-
 const imagesMarkup = galleryItems.map(({ preview, original, description }) => {
   return `<div class="gallery__item">
     <a class="gallery__link" href = "${original}">
@@ -24,25 +13,11 @@ const imagesMarkup = galleryItems.map(({ preview, original, description }) => {
     </a>
   </div>`
 })
-
 const imagesMarkupString = imagesMarkup.join('')
 
 const galleryEl = document.querySelector('.gallery')
 
 galleryEl.insertAdjacentHTML('beforeend', imagesMarkupString)
-
-// Підключаю ЛайтБокс
-// const bodyEl = document.querySelector('body');
-// const headEl = document.querySelector('head')
-
-// const connectScriptLightBox = '<script src="https://cdn.jsdelivr.net/npm/basiclightbox@5.0.4/dist/basicLightbox.min.js"></script>';
-// const connectStyleLightBox = `<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/basiclightbox@5.0.4/dist/basicLightbox.min.css">`;
-
-
-// bodyEl.insertAdjacentHTML('beforeend', connectScriptLightBox)
-// headEl.insertAdjacentHTML('beforeend', connectStyleLightBox)
-// 
-
 
 function onGalleryClick(e) {
   e.preventDefault();
@@ -55,25 +30,27 @@ function onGalleryClick(e) {
 
   const instance = basicLightbox.create(`
   <img width="1400" height="900" src="${currentImgOriginalSrc}" alt="${currentImgOriginalAlt}">
-  `)
-
-  instance.show(() => {
-    window.addEventListener('keydown', keyEscape)
+  `, {
+  onShow: instance => {
+      window.addEventListener('keydown', keyEscape)
+  },
+  onClose: instance => {
+      window.removeEventListener('keydown', keyEscape)
+    }
   })
+
+  instance.show()
 
   function keyEscape(evt) {
     if (evt.code === "Escape") {
       console.log('ESCAPE!!!');
-      instance.close(() => {
-        window.removeEventListener('keydown', keyEscape)
-      })
+      instance.close()
       return
     }
-    console.log("NOT ESCAPE!!");
+    console.log(evt.code ,"NOT ESCAPE!!");
   }
-
 }
 
-galleryEl.addEventListener('click', onGalleryClick)
 
+galleryEl.addEventListener('click', onGalleryClick)
 
