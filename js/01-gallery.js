@@ -31,10 +31,10 @@ const galleryEl = document.querySelector('.gallery')
 
 galleryEl.insertAdjacentHTML('beforeend', imagesMarkupString)
 
+// Підключаю ЛайтБокс
 // const bodyEl = document.querySelector('body');
 // const headEl = document.querySelector('head')
 
-// Підключаю ЛайтБокс
 // const connectScriptLightBox = '<script src="https://cdn.jsdelivr.net/npm/basiclightbox@5.0.4/dist/basicLightbox.min.js"></script>';
 // const connectStyleLightBox = `<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/basiclightbox@5.0.4/dist/basicLightbox.min.css">`;
 
